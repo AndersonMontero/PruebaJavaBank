@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 //@Repository
 public interface CardCrudRepository extends CrudRepository<CardEntity,Integer> {
+
+    CardEntity findByNumeroTarjeta(String cardId);
+
 }

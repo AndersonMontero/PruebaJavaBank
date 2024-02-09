@@ -2,6 +2,7 @@ package com.bank.prueba.web.controller;
 
 import com.bank.prueba.domain.dto.CardDto;
 import com.bank.prueba.domain.service.ICardService;
+import jakarta.validation.constraints.Max;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +19,11 @@ public class CardController {
 
     @GetMapping("/prueba")
     public String prueba(){
-        return "Hola Ingreso";
+        return "Hola Ingreso1234";
     }
 
     @GetMapping("/balance/{cardId}")
-    public ResponseEntity<CardDto> getBalanceInquiry(@PathVariable("cardId") Integer cardId){
+    public ResponseEntity<CardDto> getBalanceInquiry(@PathVariable("cardId") String cardId){
         CardDto response = iCardService.getBalanceInquiry(cardId);
         return ResponseEntity.ok(response);
     }

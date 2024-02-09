@@ -12,10 +12,12 @@ public class CardDto {
 
     private Integer id;
 
+    private String numeroTarjeta;
+
     private String nombreTitular;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "mm/yyyy")
-    private Date fechaVencimineto;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/yyyy")
+    private Date fechaVencimiento;
 
     private Integer idTipoTarjeta;
 

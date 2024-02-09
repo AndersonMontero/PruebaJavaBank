@@ -18,6 +18,9 @@ public class CardEntity {
     @Id
     private Integer id;
 
+    @Column(name = "numero_tarjeta")
+    private String numeroTarjeta;
+
     @Column(name = "nombre_titular")
     private String nombreTitular;
 
