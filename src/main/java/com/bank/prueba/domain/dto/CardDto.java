@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -12,12 +12,14 @@ public class CardDto {
 
     private Integer id;
 
+    private String productoId;
+
     private String numeroTarjeta;
 
     private String nombreTitular;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/yyyy")
-    private Date fechaVencimiento;
+    private LocalDateTime fechaVencimiento;
 
     private Integer idTipoTarjeta;
 
@@ -28,7 +30,7 @@ public class CardDto {
     private Double saldo;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    private Date fechaCreacion;
+    private LocalDateTime fechaCreacion;
 
 }
 

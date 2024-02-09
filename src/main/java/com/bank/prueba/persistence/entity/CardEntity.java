@@ -1,13 +1,11 @@
 package com.bank.prueba.persistence.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import java.util.Date;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tarjeta")
@@ -16,7 +14,11 @@ import java.util.Date;
 public class CardEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "id_producto")
+    private String productoId;
 
     @Column(name = "numero_tarjeta")
     private String numeroTarjeta;
@@ -25,7 +27,7 @@ public class CardEntity {
     private String nombreTitular;
 
     @Column(name = "fecha_vencimiento")
-    private Date fechaVencimiento;
+    private LocalDateTime fechaVencimiento;
 
     @Column(name = "id_tipo_tarjeta")
     private Integer idTipoTarjeta;
@@ -39,6 +41,6 @@ public class CardEntity {
     private Double saldo;
 
     @Column(name = "fecha_creacion")
-    private Date fechaCreacion;
+    private LocalDateTime fechaCreacion;
 
 }
