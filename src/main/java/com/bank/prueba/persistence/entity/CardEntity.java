@@ -1,12 +1,12 @@
 package com.bank.prueba.persistence.entity;
 
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
@@ -21,8 +21,8 @@ public class CardEntity {
     @Column(name = "nombre_titular")
     private String nombreTitular;
 
-    @Column(name = "fecha_vencimineto")
-    private Date fechaVencimineto;
+    @Column(name = "fecha_vencimiento")
+    private Date fechaVencimiento;
 
     @Column(name = "id_tipo_tarjeta")
     private Integer idTipoTarjeta;
