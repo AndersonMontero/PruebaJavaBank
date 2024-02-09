@@ -16,14 +16,11 @@ public class CardService implements ICardService {
 
     @Override
     public CardDto getBalanceInquiry(String cardId) throws HttpGenericException {
-        try {
-            if(cardId.equals(null)){
-                throw new HttpGenericException(HttpStatus.BAD_REQUEST,"Por favor ingrese un numero de tarjeta");
+            CardDto response = iCardRepository.getBalanceInquiry(cardId);
+
+            if (response == null || response.getId() == null) {
+                throw new HttpGenericException(HttpStatus.INTERNAL_SERVER_ERROR, "No existe información");
             }
-            CardDto dato = iCardRepository.getBalanceInquiry(cardId);
-            return dato;
-        } catch (HttpGenericException e){
-            throw e;
-        }
+            return response;
     }
 }

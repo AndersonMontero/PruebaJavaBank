@@ -27,6 +27,7 @@ public class CardDto {
 
     private Double saldo;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date fechaCreacion;
 
 }

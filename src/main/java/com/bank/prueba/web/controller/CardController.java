@@ -1,9 +1,12 @@
 package com.bank.prueba.web.controller;
 
 import com.bank.prueba.domain.dto.CardDto;
+import com.bank.prueba.domain.exception.HttpGenericException;
 import com.bank.prueba.domain.service.ICardService;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,9 +26,16 @@ public class CardController {
     }
 
     @GetMapping("/balance/{cardId}")
-    public ResponseEntity<CardDto> getBalanceInquiry(@PathVariable("cardId") String cardId){
-        CardDto response = iCardService.getBalanceInquiry(cardId);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<CardDto> getBalanceInquiry(@PathVariable String cardId) {
+        try {
+            if (cardId == null || cardId.length() != 16) {
+                throw new HttpGenericException(HttpStatus.LENGTH_REQUIRED, "Por favor ingrese un numero de tarjeta válido");
+            }
+            CardDto response = iCardService.getBalanceInquiry(cardId);
+            return ResponseEntity.ok(response);
+        } catch (HttpGenericException e){
+            throw e;
+        }
     }
 
 
