@@ -34,4 +34,10 @@ public class CardRepository implements ICardRepository {
         return cardMapper.toCardDto(cardCrudRepository.findByNumeroTarjeta(cardId));
     }
 
+    @Override
+    public CardDto postActivateCard(CardDto addData) {
+        CardEntity cardEntity = cardMapper.toCardEntity(addData);
+        return cardMapper.toCardDto(cardCrudRepository.save(cardEntity));
+    }
+
 }

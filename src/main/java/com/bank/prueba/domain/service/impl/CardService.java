@@ -1,6 +1,7 @@
 package com.bank.prueba.domain.service.impl;
 
 import com.bank.prueba.domain.dto.CardDto;
+import com.bank.prueba.domain.dto.request.ActivateCardRequest;
 import com.bank.prueba.domain.dto.response.CardResponse;
 import com.bank.prueba.domain.exception.HttpGenericException;
 import com.bank.prueba.domain.repository.ICardRepository;
@@ -30,7 +31,7 @@ public class CardService implements ICardService {
     @Override
     public CardResponse postNumberCard(String productId) throws HttpGenericException {
         boolean existsCard = iCardRepository.existsByProductoId(productId);
-        if (existsCard) throw new HttpGenericException(HttpStatus.CONFLICT,"Ya existe este numero de tarjeta");
+        if (existsCard) throw new HttpGenericException(HttpStatus.CONFLICT,"Ya existe este número de tarjeta.");
         Long randomNumber = (long) (Math.random() * 9_999_999_9) + 1_000_000_000;
         String numberCard = productId.concat(randomNumber.toString());
         CardDto addData;
@@ -42,4 +43,15 @@ public class CardService implements ICardService {
         addData.setSaldo(0.0);
         return iCardRepository.postNumberCard(addData);
     }
+
+    @Override
+    public CardDto postActivateCard(ActivateCardRequest activateCardRequest) throws HttpGenericException {
+        boolean existsCard = iCardRepository.existsByProductoId(activateCardRequest.getCardId());
+        if (!existsCard) throw new HttpGenericException(HttpStatus.CONFLICT,"No existe este número de tarjeta.");
+        CardDto addData;
+        addData = new CardDto();
+        addData.setEstadoTarjeta(1);
+        return iCardRepository.postActivateCard(addData);
+    }
+
 }

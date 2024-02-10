@@ -11,4 +11,6 @@ public interface ICardRepository {
 
     CardDto getBalanceInquiry(String cardId);
 
+    CardDto postActivateCard(CardDto addData);
+
 }
