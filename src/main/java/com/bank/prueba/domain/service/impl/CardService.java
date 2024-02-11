@@ -34,13 +34,16 @@ public class CardService implements ICardService {
         if (existsCard) throw new HttpGenericException(HttpStatus.CONFLICT,"Ya existe este número de tarjeta.");
         Long randomNumber = (long) (Math.random() * 9_999_999_9) + 1_000_000_000;
         String numberCard = productId.concat(randomNumber.toString());
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime futureYear = now.plusYears(3);
         CardDto addData;
         addData = new CardDto();
         addData.setProductoId(productId);
         addData.setNumeroTarjeta(numberCard);
         addData.setEstadoTarjeta(2);
-        addData.setFechaCreacion(LocalDateTime.now());
+        addData.setFechaCreacion(now);
         addData.setSaldo(0.0);
+        addData.setFechaVencimiento(futureYear);
         return iCardRepository.postNumberCard(addData);
     }
 
@@ -52,6 +55,17 @@ public class CardService implements ICardService {
         addData = new CardDto();
         addData.setEstadoTarjeta(1);
         return iCardRepository.postActivateCard(addData);
+    }
+
+    @Override
+    public String deleteFreezeCard(String cardId) throws HttpGenericException {
+        boolean existsCard = iCardRepository.existsByNumeroTarjeta(cardId);
+        if (!existsCard) throw new HttpGenericException(HttpStatus.CONFLICT,"No existe este número de tarjeta.");
+        CardDto addData;
+        addData = new CardDto();
+        addData.setEstadoTarjeta(2);
+        iCardRepository.postActivateCard(addData);
+        return "Su tarjeta con número: " + cardId + " fue Bloqueada con éxito.";
     }
 
 }

@@ -52,6 +52,18 @@ public class CardController {
         }
     }
 
+    @DeleteMapping("/{cardId}")
+    public ResponseEntity<String> deleteFreezeCard(@PathVariable String cardId) {
+        try {
+            if (cardId == null || cardId.length() != 16) {
+                throw new HttpGenericException(HttpStatus.LENGTH_REQUIRED, "Por favor ingrese un numero de tarjeta válido.");
+            }
+            String response = iCardService.deleteFreezeCard(cardId);
+            return ResponseEntity.ok(response);
+        }catch (HttpGenericException e){
+            throw e;
+        }
+    }
 
     @GetMapping("/balance/{cardId}")
     public ResponseEntity<CardDto> getBalanceInquiry(@PathVariable String cardId) {

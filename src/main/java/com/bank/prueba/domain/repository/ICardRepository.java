@@ -13,4 +13,6 @@ public interface ICardRepository {
 
     CardDto postActivateCard(CardDto addData);
 
+    boolean existsByNumeroTarjeta(String cardId);
+
 }

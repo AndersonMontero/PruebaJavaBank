@@ -40,4 +40,9 @@ public class CardRepository implements ICardRepository {
         return cardMapper.toCardDto(cardCrudRepository.save(cardEntity));
     }
 
+    @Override
+    public boolean existsByNumeroTarjeta(String cardId) {
+        return cardCrudRepository.existsByNumeroTarjeta(cardId);
+    }
+
 }

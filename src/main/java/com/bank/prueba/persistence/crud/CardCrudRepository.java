@@ -9,4 +9,6 @@ public interface CardCrudRepository extends CrudRepository<CardEntity,Integer> {
 
     CardEntity findByNumeroTarjeta(String cardId);
 
+    boolean existsByNumeroTarjeta(String cardId);
+
 }
