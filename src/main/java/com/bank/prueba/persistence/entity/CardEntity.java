@@ -38,7 +38,7 @@ public class CardEntity {
     @Column(name = "estado_tarjeta")
     private Integer estadoTarjeta;
 
-    private Double saldo;
+    private String saldo;
 
     @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;

@@ -9,12 +9,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class ActivateCardRequest {
 
-    @NotNull(message = "El campo cardId es obligatorio")
-    @Size(max = 16, message = "Tamaño máximo de número de cardId es de 16 digitos")
+    @NotNull(message = "El campo cardId es obligatorio.")
+    @Size(max = 16, message = "Tamaño máximo de número de cardId es de 16 digitos.")
     private String cardId;
 
 }

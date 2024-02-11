@@ -2,6 +2,7 @@ package com.bank.prueba.domain.service.impl;
 
 import com.bank.prueba.domain.dto.CardDto;
 import com.bank.prueba.domain.dto.request.ActivateCardRequest;
+import com.bank.prueba.domain.dto.request.RechargeBalanceRequest;
 import com.bank.prueba.domain.dto.response.CardResponse;
 import com.bank.prueba.domain.exception.HttpGenericException;
 import com.bank.prueba.domain.repository.ICardRepository;
@@ -42,7 +43,7 @@ public class CardService implements ICardService {
         addData.setNumeroTarjeta(numberCard);
         addData.setEstadoTarjeta(2);
         addData.setFechaCreacion(now);
-        addData.setSaldo(0.0);
+        addData.setSaldo("0");
         addData.setFechaVencimiento(futureYear);
         return iCardRepository.postNumberCard(addData);
     }
@@ -66,6 +67,16 @@ public class CardService implements ICardService {
         addData.setEstadoTarjeta(2);
         iCardRepository.postActivateCard(addData);
         return "Su tarjeta con número: " + cardId + " fue Bloqueada con éxito.";
+    }
+
+    @Override
+    public CardDto postRechargeBalance(RechargeBalanceRequest rechargeBalanceRequest) {
+        boolean existsCard = iCardRepository.existsByNumeroTarjeta(rechargeBalanceRequest.getCardId());
+        if (!existsCard) throw new HttpGenericException(HttpStatus.CONFLICT,"No existe este número de tarjeta.");
+        CardDto addData;
+        addData = new CardDto();
+        addData.setSaldo(rechargeBalanceRequest.getBalance());
+        return iCardRepository.postActivateCard(addData);
     }
 
 }

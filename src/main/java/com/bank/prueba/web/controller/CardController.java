@@ -2,6 +2,7 @@ package com.bank.prueba.web.controller;
 
 import com.bank.prueba.domain.dto.CardDto;
 import com.bank.prueba.domain.dto.request.ActivateCardRequest;
+import com.bank.prueba.domain.dto.request.RechargeBalanceRequest;
 import com.bank.prueba.domain.dto.response.CardResponse;
 import com.bank.prueba.domain.exception.HttpGenericException;
 import com.bank.prueba.domain.service.ICardService;
@@ -27,13 +28,13 @@ public class CardController {
     }
 
     @PostMapping("/{productId}/number")
-    public ResponseEntity<CardResponse> postNumberCard(@PathVariable String productId) {
+    public ResponseEntity<?> postNumberCard(@PathVariable String productId) {
         try {
             if (!Pattern.matches("\\d{6}", productId)){
                 throw new HttpGenericException(HttpStatus.LENGTH_REQUIRED,"Por favor ingrese el número de producto de 6 dígitos.");
             }
             CardResponse response = iCardService.postNumberCard(productId);
-            return ResponseEntity.ok(response);
+            return new ResponseEntity<>(response,HttpStatus.CREATED);
         } catch (HttpGenericException e){
             throw e;
         }
@@ -53,12 +54,25 @@ public class CardController {
     }
 
     @DeleteMapping("/{cardId}")
-    public ResponseEntity<String> deleteFreezeCard(@PathVariable String cardId) {
+    public ResponseEntity<?> deleteFreezeCard(@PathVariable String cardId) {
         try {
             if (cardId == null || cardId.length() != 16) {
                 throw new HttpGenericException(HttpStatus.LENGTH_REQUIRED, "Por favor ingrese un numero de tarjeta válido.");
             }
             String response = iCardService.deleteFreezeCard(cardId);
+            return ResponseEntity.ok(response);
+        }catch (HttpGenericException e){
+            throw e;
+        }
+    }
+
+    @PostMapping("/balance")
+    public ResponseEntity<CardDto> postRechargeBalance(@RequestBody @Valid RechargeBalanceRequest rechargeBalanceRequest){
+        try {
+            if (!Pattern.matches("\\d{6}", rechargeBalanceRequest.getCardId())){
+                throw new HttpGenericException(HttpStatus.LENGTH_REQUIRED,"Por favor ingrese el número de producto de 6 dígitos.");
+            }
+            CardDto response = iCardService.postRechargeBalance(rechargeBalanceRequest);
             return ResponseEntity.ok(response);
         }catch (HttpGenericException e){
             throw e;
