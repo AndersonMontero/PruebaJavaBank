@@ -35,9 +35,15 @@ public class CardRepository implements ICardRepository {
     }
 
     @Override
-    public CardDto postActivateCard(CardDto addData) {
-        CardEntity cardEntity = cardMapper.toCardEntity(addData);
-        return cardMapper.toCardDto(cardCrudRepository.save(cardEntity));
+    public CardDto putActiveCard(String cardId, int i) {
+        cardCrudRepository.putActiveCard(cardId,i);
+        return cardMapper.toCardDto(cardCrudRepository.findByNumeroTarjeta(cardId));
+    }
+
+    @Override
+    public CardDto putRechargeBalance(String cardId, String balance) {
+        cardCrudRepository.putRechargeBalance(cardId,balance);
+        return cardMapper.toCardDto(cardCrudRepository.findByNumeroTarjeta(cardId));
     }
 
     @Override

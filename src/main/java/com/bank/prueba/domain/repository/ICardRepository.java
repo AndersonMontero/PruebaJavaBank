@@ -11,8 +11,10 @@ public interface ICardRepository {
 
     CardDto getBalanceInquiry(String cardId);
 
-    CardDto postActivateCard(CardDto addData);
-
     boolean existsByNumeroTarjeta(String cardId);
+
+    CardDto putActiveCard(String cardId, int i);
+
+    CardDto putRechargeBalance(String cardId, String balance);
 
 }

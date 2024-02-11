@@ -40,13 +40,13 @@ public class CardController {
         }
     }
 
-    @PostMapping("/enroll")
-    public ResponseEntity<CardDto> postActivateCard(@RequestBody @Valid ActivateCardRequest activateCardRequest) {
+    @PutMapping("/enroll")
+    public ResponseEntity<CardDto> putActiveCard(@RequestBody @Valid ActivateCardRequest activateCardRequest) {
         try {
-            if (!Pattern.matches("\\d{6}", activateCardRequest.getCardId())){
-                throw new HttpGenericException(HttpStatus.LENGTH_REQUIRED,"Por favor ingrese el número de producto de 6 dígitos.");
+            if (!Pattern.matches("\\d{16}", activateCardRequest.getCardId())){
+                throw new HttpGenericException(HttpStatus.LENGTH_REQUIRED,"Por favor ingrese el número de tarjeta de 16 dígitos.");
             }
-            CardDto response = iCardService.postActivateCard(activateCardRequest);
+            CardDto response = iCardService.putActiveCard(activateCardRequest);
             return ResponseEntity.ok(response);
         } catch (HttpGenericException e){
             throw e;
@@ -66,13 +66,13 @@ public class CardController {
         }
     }
 
-    @PostMapping("/balance")
-    public ResponseEntity<CardDto> postRechargeBalance(@RequestBody @Valid RechargeBalanceRequest rechargeBalanceRequest){
+    @PutMapping("/balance")
+    public ResponseEntity<CardDto> putRechargeBalance(@RequestBody @Valid RechargeBalanceRequest rechargeBalanceRequest){
         try {
-            if (!Pattern.matches("\\d{6}", rechargeBalanceRequest.getCardId())){
+            if (!Pattern.matches("\\d{16}", rechargeBalanceRequest.getCardId())){
                 throw new HttpGenericException(HttpStatus.LENGTH_REQUIRED,"Por favor ingrese el número de producto de 6 dígitos.");
             }
-            CardDto response = iCardService.postRechargeBalance(rechargeBalanceRequest);
+            CardDto response = iCardService.putRechargeBalance(rechargeBalanceRequest);
             return ResponseEntity.ok(response);
         }catch (HttpGenericException e){
             throw e;

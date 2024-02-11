@@ -11,11 +11,10 @@ public interface ICardService {
 
     CardResponse postNumberCard(String productId);
 
-    CardDto postActivateCard(ActivateCardRequest activateCardRequest);
+    CardDto putActiveCard(ActivateCardRequest activateCardRequest);
 
     String deleteFreezeCard(String cardId);
 
-    CardDto postRechargeBalance(RechargeBalanceRequest rechargeBalanceRequest);
-
+    CardDto putRechargeBalance(RechargeBalanceRequest rechargeBalanceRequest);
 
 }
