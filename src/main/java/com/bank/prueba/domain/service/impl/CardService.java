@@ -25,7 +25,7 @@ public class CardService implements ICardService {
             CardDto response = iCardRepository.getBalanceInquiry(cardId);
 
             if (response == null || response.getId() == null) {
-                throw new HttpGenericException(HttpStatus.INTERNAL_SERVER_ERROR, "No existe información");
+                throw new HttpGenericException(HttpStatus.NOT_FOUND, "No existe información");
             }
             return response;
     }
@@ -38,36 +38,36 @@ public class CardService implements ICardService {
         String numberCard = productId.concat(randomNumber.toString());
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime futureYear = now.plusYears(3);
-        CardDto addData;
-        addData = new CardDto();
-        addData.setProductoId(productId);
-        addData.setNumeroTarjeta(numberCard);
-        addData.setEstadoTarjeta(2);
-        addData.setFechaCreacion(now);
-        addData.setSaldo("0");
-        addData.setFechaVencimiento(futureYear);
-        return iCardRepository.postNumberCard(addData);
+        CardDto cardDto;
+        cardDto = new CardDto();
+        cardDto.setProductoId(productId);
+        cardDto.setNumeroTarjeta(numberCard);
+        cardDto.setEstadoTarjeta(2);
+        cardDto.setFechaCreacion(now);
+        cardDto.setSaldo("0");
+        cardDto.setFechaVencimiento(futureYear);
+        return iCardRepository.postNumberCard(cardDto);
     }
 
     @Override
     public CardDto putActiveCard(ActivateCardRequest activateCardRequest) throws HttpGenericException {
         boolean existsCard = iCardRepository.existsByProductoId(activateCardRequest.getCardId());
-        if (existsCard) throw new HttpGenericException(HttpStatus.CONFLICT,"No existe este número de tarjeta.");
+        if (existsCard) throw new HttpGenericException(HttpStatus.NOT_FOUND,"No existe este número de tarjeta.");
         return iCardRepository.putActiveCard(activateCardRequest.getCardId(),1);
     }
 
     @Override
     public String deleteFreezeCard(String cardId) throws HttpGenericException {
         boolean existsCard = iCardRepository.existsByNumeroTarjeta(cardId);
-        if (existsCard) throw new HttpGenericException(HttpStatus.CONFLICT,"No existe este número de tarjeta.");
-        iCardRepository.putActiveCard(cardId,2);
+        if (existsCard) throw new HttpGenericException(HttpStatus.NOT_FOUND,"No existe este número de tarjeta.");
+        iCardRepository.putActiveCard(cardId,3);
         return "Su tarjeta con número: " + cardId + " fue bloqueada con éxito.";
     }
 
     @Override
     public CardDto putRechargeBalance(RechargeBalanceRequest rechargeBalanceRequest) {
         boolean existsCard = iCardRepository.existsByNumeroTarjeta(rechargeBalanceRequest.getCardId());
-        if (!existsCard) throw new HttpGenericException(HttpStatus.CONFLICT,"No existe este número de tarjeta.");
+        if (!existsCard) throw new HttpGenericException(HttpStatus.NOT_FOUND,"No existe este número de tarjeta.");
         if (Pattern.matches("\\d", rechargeBalanceRequest.getBalance()))
             throw new HttpGenericException(HttpStatus.CONFLICT,"Por favor solo ingresar números para el saldo.");
         return iCardRepository.putRechargeBalance(rechargeBalanceRequest.getCardId(),rechargeBalanceRequest.getBalance());

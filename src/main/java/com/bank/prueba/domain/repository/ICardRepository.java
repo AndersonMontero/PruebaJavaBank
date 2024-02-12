@@ -13,7 +13,7 @@ public interface ICardRepository {
 
     boolean existsByNumeroTarjeta(String cardId);
 
-    CardDto putActiveCard(String cardId, int i);
+    CardDto putActiveCard(String cardId, int estado);
 
     CardDto putRechargeBalance(String cardId, String balance);
 

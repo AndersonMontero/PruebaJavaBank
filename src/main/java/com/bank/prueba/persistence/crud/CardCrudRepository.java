@@ -18,8 +18,8 @@ public interface CardCrudRepository extends CrudRepository<CardEntity,Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE tarjeta SET estado_tarjeta = :i WHERE numero_tarjeta = :cardId", nativeQuery = true)
-    void putActiveCard(@Param("cardId") String cardId, @Param("i") int i);
+    @Query(value = "UPDATE tarjeta SET estado_tarjeta = :estado WHERE numero_tarjeta = :cardId", nativeQuery = true)
+    void putActiveCard(@Param("cardId") String cardId, @Param("estado") int estado);
 
     @Modifying
     @Transactional
