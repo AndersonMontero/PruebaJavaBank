@@ -30,7 +30,8 @@ public class TransactionRepository implements ITransactionRepository {
 
     @Override
     public TransactionDto getTransaction(Integer transactionId) {
-        return transactionMapper.toTransactionDto(transactionCrudRepository.findById(transactionId));
+        TransactionEntity transactionEntity = transactionMapper.toTransactionEntity(transactionId);
+        return transactionMapper.toTransactionDto(transactionCrudRepository.findById(transactionEntity));
     }
 
     @Override

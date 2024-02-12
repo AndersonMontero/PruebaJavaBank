@@ -13,6 +13,6 @@ public interface TransactionMapper {
 
     TransactionDto toTransactionDto(TransactionEntity save);
 
-    TransactionDto toTransactionDto(Optional<TransactionEntity> byId);
+    TransactionEntity toTransactionEntity(Integer transactionId);
 
 }

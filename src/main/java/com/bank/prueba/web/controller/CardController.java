@@ -22,11 +22,6 @@ public class CardController {
     @Autowired
     private ICardService iCardService;
 
-    @GetMapping("/prueba")
-    public String prueba(){
-        return "Hola Ingreso1234";
-    }
-
     @PostMapping("/{productId}/number")
     public ResponseEntity<?> postNumberCard(@PathVariable String productId) {
         try {

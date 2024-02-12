@@ -35,9 +35,8 @@ public class CardRepository implements ICardRepository {
     }
 
     @Override
-    public CardDto putActiveCard(String cardId, int estado) {
+    public void putActiveCard(String cardId, int estado) {
         cardCrudRepository.putActiveCard(cardId,estado);
-        return cardMapper.toCardDto(cardCrudRepository.findByNumeroTarjeta(cardId));
     }
 
     @Override
