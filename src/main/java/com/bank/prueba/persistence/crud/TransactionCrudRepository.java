@@ -15,5 +15,5 @@ public interface TransactionCrudRepository extends JpaRepository<TransactionEnti
     void putAnulation(@Param("transactionId") Integer transactionId, @Param("estado") int estado);
 
     TransactionEntity findById(TransactionEntity transactionEntity);
-    
+
 }

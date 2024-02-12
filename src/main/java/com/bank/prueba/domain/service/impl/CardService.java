@@ -62,7 +62,9 @@ public class CardService implements ICardService {
     @Override
     public String deleteFreezeCard(String cardId) throws HttpGenericException {
         boolean existsCard = iCardRepository.existsByNumeroTarjeta(cardId);
-        if (existsCard) throw new HttpGenericException(HttpStatus.NOT_FOUND,"No existe este número de tarjeta.");
+        CardDto response = iCardRepository.getBalanceInquiry(cardId);
+        if (!existsCard) throw new HttpGenericException(HttpStatus.NOT_FOUND,"No existe este número de tarjeta.");
+        if ( !response.getEstadoTarjeta().equals(3) ) throw new HttpGenericException(HttpStatus.NOT_ACCEPTABLE,"Ya fue bloqueada previamente");
         iCardRepository.putActiveCard(cardId,3);
         return "Su tarjeta con número: " + cardId + " fue bloqueada con éxito.";
     }

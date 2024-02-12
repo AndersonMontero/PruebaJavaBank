@@ -65,7 +65,7 @@ public class CardController {
     public ResponseEntity<CardDto> putRechargeBalance(@RequestBody @Valid RechargeBalanceRequest rechargeBalanceRequest){
         try {
             if (!Pattern.matches("\\d{16}", rechargeBalanceRequest.getCardId())){
-                throw new HttpGenericException(HttpStatus.LENGTH_REQUIRED,"Por favor ingrese el número de producto de 6 dígitos.");
+                throw new HttpGenericException(HttpStatus.LENGTH_REQUIRED,"Por favor ingrese el número de producto de 16 dígitos.");
             }
             CardDto response = iCardService.putRechargeBalance(rechargeBalanceRequest);
             return ResponseEntity.ok(response);
