@@ -8,6 +8,8 @@ import com.bank.prueba.persistence.mapper.TransactionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class TransactionRepository implements ITransactionRepository {
 
@@ -29,9 +31,9 @@ public class TransactionRepository implements ITransactionRepository {
     }
 
     @Override
-    public TransactionDto getTransaction(Integer transactionId) {
-        TransactionEntity transactionEntity = transactionMapper.toTransactionEntity(transactionId);
-        return transactionMapper.toTransactionDto(transactionCrudRepository.findById(transactionEntity));
+    public Optional<TransactionDto> getTransaction(Integer transactionId) {
+        Optional<TransactionEntity> entity = transactionCrudRepository.findById(transactionId);
+        return entity.map(e -> transactionMapper.toTransactionDto(e));
     }
 
     @Override

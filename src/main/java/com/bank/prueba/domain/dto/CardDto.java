@@ -27,7 +27,7 @@ public class CardDto {
 
     private Integer estadoTarjeta;
 
-    private String saldo;
+    private Double saldo;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDateTime fechaCreacion;

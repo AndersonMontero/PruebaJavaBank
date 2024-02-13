@@ -14,6 +14,4 @@ public interface TransactionCrudRepository extends JpaRepository<TransactionEnti
     @Query(value = "UPDATE movimiento SET estado_movimiento = :estado WHERE id = :transactionId", nativeQuery = true)
     void putAnulation(@Param("transactionId") Integer transactionId, @Param("estado") int estado);
 
-    TransactionEntity findById(TransactionEntity transactionEntity);
-
 }

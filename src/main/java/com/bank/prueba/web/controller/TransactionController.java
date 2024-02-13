@@ -7,6 +7,7 @@ import com.bank.prueba.domain.dto.request.PurchaseRequest;
 import com.bank.prueba.domain.dto.response.TransactionResponse;
 import com.bank.prueba.domain.exception.HttpGenericException;
 import com.bank.prueba.domain.service.ITransactionService;
+import com.bank.prueba.persistence.entity.TransactionEntity;
 import jakarta.validation.Valid;
 import org.mapstruct.ap.shaded.freemarker.template.utility.HtmlEscape;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @RestController
@@ -37,10 +39,10 @@ public class TransactionController {
     }
 
     @GetMapping("/{transactionId}")
-    public ResponseEntity<TransactionDto> getTransaction(@PathVariable Integer transactionId){
+    public ResponseEntity<Optional<TransactionDto>> getTransaction(@PathVariable Integer transactionId){
         try {
-            if (transactionId != null) throw new HttpGenericException(HttpStatus.BAD_GATEWAY,"por favor ingresar numero a consultar de transacción.");
-            TransactionDto response = iTransactionService.getTransaction(transactionId);
+            if (!(transactionId != null)) throw new HttpGenericException(HttpStatus.BAD_GATEWAY,"por favor ingresar numero a consultar de transacción.");
+            Optional<TransactionDto> response = iTransactionService.getTransaction(transactionId);
             return ResponseEntity.ok(response);
         } catch (HttpGenericException e){
             throw e;
@@ -51,7 +53,7 @@ public class TransactionController {
     @PutMapping("/anulation")
     public ResponseEntity<TransactionResponse> putAnulation(@RequestBody @Valid AnulationRequest anulationRequest ){
         try {
-            if (anulationRequest.getTransactionId() != null && !Pattern.matches("\\d{16}", anulationRequest.getCardId())) throw new HttpGenericException(HttpStatus.BAD_GATEWAY,"por favor ingresar numero.");
+            if (!(anulationRequest.getTransactionId() != null) && !Pattern.matches("\\d{16}", anulationRequest.getCardId())) throw new HttpGenericException(HttpStatus.BAD_GATEWAY,"por favor ingresar numero.");
             TransactionResponse response = iTransactionService.putAnulation(anulationRequest);
             return ResponseEntity.ok(response);
         }catch (HttpGenericException e){

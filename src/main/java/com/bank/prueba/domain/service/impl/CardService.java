@@ -44,7 +44,7 @@ public class CardService implements ICardService {
         cardDto.setNumeroTarjeta(numberCard);
         cardDto.setEstadoTarjeta(2);
         cardDto.setFechaCreacion(now);
-        cardDto.setSaldo("0");
+        cardDto.setSaldo(0.0);
         cardDto.setFechaVencimiento(futureYear);
         return iCardRepository.postNumberCard(cardDto);
     }
@@ -54,7 +54,7 @@ public class CardService implements ICardService {
         boolean existsCard = iCardRepository.existsByProductoId(activateCardRequest.getCardId());
         CardDto response = iCardRepository.getBalanceInquiry(activateCardRequest.getCardId());
         if (existsCard) throw new HttpGenericException(HttpStatus.NOT_FOUND,"No existe este número de tarjeta.");
-        if ( !response.getEstadoTarjeta().equals(2) ) throw new HttpGenericException(HttpStatus.NOT_ACCEPTABLE,"Ya fue activada previamente");
+        if ( response.getEstadoTarjeta().equals(2) ) throw new HttpGenericException(HttpStatus.NOT_ACCEPTABLE,"Ya fue activada previamente");
         iCardRepository.putActiveCard(activateCardRequest.getCardId(),1);
         return iCardRepository.getBalanceInquiry(activateCardRequest.getCardId());
     }
@@ -64,7 +64,7 @@ public class CardService implements ICardService {
         boolean existsCard = iCardRepository.existsByNumeroTarjeta(cardId);
         CardDto response = iCardRepository.getBalanceInquiry(cardId);
         if (!existsCard) throw new HttpGenericException(HttpStatus.NOT_FOUND,"No existe este número de tarjeta.");
-        if ( !response.getEstadoTarjeta().equals(3) ) throw new HttpGenericException(HttpStatus.NOT_ACCEPTABLE,"Ya fue bloqueada previamente");
+        if ( response.getEstadoTarjeta().equals(3) ) throw new HttpGenericException(HttpStatus.NOT_ACCEPTABLE,"Ya fue bloqueada previamente");
         iCardRepository.putActiveCard(cardId,3);
         return "Su tarjeta con número: " + cardId + " fue bloqueada con éxito.";
     }
