@@ -1,0 +1,233 @@
+{
+	"info": {
+		"_postman_id": "6ab9edb0-e1c3-43cc-b7c4-15e0288277b0",
+		"name": "API Back",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23821733",
+		"_collection_link": "https://cloudy-astronaut-231614.postman.co/workspace/My-Workspace~6a7e15a3-9471-48bf-8b43-3cdfa2c67918/collection/23821733-6ab9edb0-e1c3-43cc-b7c4-15e0288277b0?action=share&source=collection_link&creator=23821733"
+	},
+	"item": [
+		{
+			"name": "Recargar saldo",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cardId\": \"9876541076774690\",\r\n    \"balance\": 80\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/card/balance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"card",
+						"balance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activar tarjeta",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cardId\": \"1234560123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/card/enroll",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"card",
+						"enroll"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta de saldo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/card/balance/:cardId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"card",
+						"balance",
+						":cardId"
+					],
+					"variable": [
+						{
+							"key": "cardId",
+							"value": "1234560123456789"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generar número de tarjeta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/card/:productId/number",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"card",
+						":productId",
+						"number"
+					],
+					"variable": [
+						{
+							"key": "productId",
+							"value": "bnj"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bloquear tarjeta",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/card/:cardId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"card",
+						":cardId"
+					],
+					"variable": [
+						{
+							"key": "cardId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transacción de compra",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cardId\": \"1234560123456789\",\r\n    \"price\": 50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/transaction/purchase",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transaction",
+						"purchase"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar transacción",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/transaction/:transactionId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transaction",
+						":transactionId"
+					],
+					"variable": [
+						{
+							"key": "transactionId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transacción Anulacion",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n    \"cardId\": \"1234560123456789\",\r\n    \"transactionId\": 1\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/transaction/anulation",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transaction",
+						"anulation"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
