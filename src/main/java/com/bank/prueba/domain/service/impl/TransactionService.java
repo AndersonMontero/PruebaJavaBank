@@ -32,12 +32,11 @@ public class TransactionService implements ITransactionService {
         if (!existsCard) throw new HttpGenericException(HttpStatus.CONFLICT,"No existe este número de tarjeta.");
         CardDto data = iCardRepository.getBalanceInquiry(purchaseRequest.getCardId());
         Double saldo = data.getSaldo();
-        System.out.println("saldo "+saldo);
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime dateValidate = data.getFechaVencimiento();
-        if (saldo != 0 && !(saldo >= purchaseRequest.getPrice())) throw new HttpGenericException(HttpStatus.CONFLICT,"Debe recargar la tarjeta actualmente tiene el saldo: "+ saldo);
-        if (dateValidate.isAfter(now)) throw new HttpGenericException(HttpStatus.CONFLICT,"prueba validar fecha.");
-        if (!(data.getEstadoTarjeta() != 2 && data.getEstadoTarjeta() != 3)) throw new HttpGenericException(HttpStatus.CONFLICT,"prueba validar estado.");
+        if ( saldo != 0 && !(saldo >= purchaseRequest.getPrice())) throw new HttpGenericException(HttpStatus.CONFLICT,"Debe recargar la tarjeta actualmente tiene el saldo: "+ saldo);
+        if (now.isAfter(dateValidate)) throw new HttpGenericException(HttpStatus.CONFLICT,"La tarjeta no está vigente, la fecha de la transacción es posterior a la fecha de vencimiento.");
+        if (data.getEstadoTarjeta() == 2 || data.getEstadoTarjeta() == 3) throw new HttpGenericException(HttpStatus.CONFLICT,"La tarjeta está inactiva o bloqueada. No se puede realizar la compra.");
         TransactionDto transactionDto;
         transactionDto = new TransactionDto();
         transactionDto.setIdTarjeta(data.getId());

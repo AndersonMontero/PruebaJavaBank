@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.regex.Pattern;
 
+//@Tag(nombre = "Planta", descripción = "la API de Planta")
 @RestController
 @RequestMapping("/card")
 public class CardController {
