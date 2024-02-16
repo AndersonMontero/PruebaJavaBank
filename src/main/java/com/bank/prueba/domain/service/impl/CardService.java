@@ -54,7 +54,7 @@ public class CardService implements ICardService {
         boolean existsCard = iCardRepository.existsByProductoId(activateCardRequest.getCardId());
         CardDto response = iCardRepository.getBalanceInquiry(activateCardRequest.getCardId());
         if (existsCard) throw new HttpGenericException(HttpStatus.NOT_FOUND,"No existe este número de tarjeta.");
-        if ( response.getEstadoTarjeta().equals(2) ) throw new HttpGenericException(HttpStatus.NOT_ACCEPTABLE,"Ya fue activada previamente");
+        if ( !response.getEstadoTarjeta().equals(2) ) throw new HttpGenericException(HttpStatus.NOT_ACCEPTABLE,"Ya fue activada previamente");
         iCardRepository.putActiveCard(activateCardRequest.getCardId(),1);
         return iCardRepository.getBalanceInquiry(activateCardRequest.getCardId());
     }
@@ -70,7 +70,7 @@ public class CardService implements ICardService {
     }
 
     @Override
-    public CardDto putRechargeBalance(RechargeBalanceRequest rechargeBalanceRequest) {
+    public CardDto putRechargeBalance(RechargeBalanceRequest rechargeBalanceRequest) throws HttpGenericException {
         boolean existsCard = iCardRepository.existsByNumeroTarjeta(rechargeBalanceRequest.getCardId());
         if (!existsCard) throw new HttpGenericException(HttpStatus.NOT_FOUND,"No existe este número de tarjeta.");
         if (Pattern.matches("\\d", rechargeBalanceRequest.getBalance()))
