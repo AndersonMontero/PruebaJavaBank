@@ -1,12 +1,13 @@
 package com.bank.prueba.persistence.crud;
 
-import com.bank.prueba.domain.dto.CardDto;
 import com.bank.prueba.persistence.entity.CardEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+
+import java.math.BigDecimal;
 
 public interface CardCrudRepository extends CrudRepository<CardEntity,Integer> {
 
@@ -24,6 +25,6 @@ public interface CardCrudRepository extends CrudRepository<CardEntity,Integer> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE tarjeta SET saldo = :balance WHERE numero_tarjeta = :cardId", nativeQuery = true)
-    void putRechargeBalance(@Param("cardId") String cardId, @Param("balance") String balance);
+    void putRechargeBalance(@Param("cardId") String cardId, @Param("balance") BigDecimal balance);
 
 }

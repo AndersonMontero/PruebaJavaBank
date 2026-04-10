@@ -12,6 +12,6 @@ public interface CardMapper {
 
     CardEntity toCardEntity(CardDto addData);
 
-    CardResponse toCarResponse(CardEntity save);
+    CardResponse toCardResponse(CardEntity save);
 
 }

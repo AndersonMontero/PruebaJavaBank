@@ -2,13 +2,17 @@ package com.bank.prueba.domain.dto.request;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class PurchaseRequest extends ActivateCardRequest{
+public class PurchaseRequest {
+
+    @NotNull(message = "El cardId es obligatorio")
+    @Pattern(regexp = "\\d{16}", message = "El número de tarjeta debe tener 16 dígitos")
+    private String cardId;
 
     @NotNull(message = "El campo price es obligatorio.")
     @Min(value = 1, message = "Tamaño minimo de price es de 1 compra.")

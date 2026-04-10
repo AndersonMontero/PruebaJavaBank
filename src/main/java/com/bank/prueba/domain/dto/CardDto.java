@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -27,7 +28,7 @@ public class CardDto {
 
     private Integer estadoTarjeta;
 
-    private Double saldo;
+    private BigDecimal saldo;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDateTime fechaCreacion;

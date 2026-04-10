@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "movimiento")
@@ -23,7 +24,7 @@ public class TransactionEntity {
     private LocalDateTime fechaMovimiento;
 
     @Column(name = "monto_dinero")
-    private Integer montoDinero;
+    private BigDecimal montoDinero;
 
     @Column(name = "tipo_operacion")
     private Integer tipoOperacion;

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "tarjeta")
@@ -38,7 +39,7 @@ public class CardEntity {
     @Column(name = "estado_tarjeta")
     private Integer estadoTarjeta;
 
-    private Double saldo;
+    private BigDecimal saldo;
 
     @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;

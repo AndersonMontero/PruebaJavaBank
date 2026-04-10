@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -17,7 +18,7 @@ public class TransactionDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDateTime fechaMovimiento;
 
-    private Integer montoDinero;
+    private BigDecimal montoDinero;
 
     private Integer tipoOperacion;
 

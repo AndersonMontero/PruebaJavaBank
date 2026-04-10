@@ -8,22 +8,16 @@ import com.bank.prueba.domain.dto.response.TransactionResponse;
 import com.bank.prueba.domain.exception.HttpGenericException;
 import com.bank.prueba.domain.repository.ICardRepository;
 import com.bank.prueba.domain.repository.ITransactionRepository;
-import com.bank.prueba.persistence.TransactionRepository;
-import org.junit.jupiter.api.BeforeEach;
+import com.bank.prueba.util.TimeProvider;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.OngoingStubbing;
-import org.reactivestreams.Publisher;
-import org.springframework.beans.factory.annotation.Autowired;
-import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -39,6 +33,9 @@ class TransactionServiceTest {
     @Mock
     private ICardRepository iCardRepository;
 
+    @Mock
+    private TimeProvider timeProvider;
+
     @InjectMocks
     private TransactionService transactionService;
 
@@ -51,11 +48,13 @@ class TransactionServiceTest {
     @Test
     void testPostPurchaseFount() {
         purchaseRequest = new PurchaseRequest();
-        purchaseRequest.setCardId("123");
+        purchaseRequest.setCardId("1234560123456789");
         purchaseRequest.setPrice(150);
 
         CardDto cardDto = new CardDto();
-        cardDto.setSaldo(100.0);
+        cardDto.setSaldo(new BigDecimal("100.0"));
+        cardDto.setFechaVencimiento(LocalDateTime.now().plusYears(1));
+        cardDto.setEstadoTarjeta(1);
 
         when(iCardRepository.existsByNumeroTarjeta(purchaseRequest.getCardId())).thenReturn(true);
         when(iCardRepository.getBalanceInquiry(purchaseRequest.getCardId())).thenReturn(cardDto);
@@ -76,7 +75,7 @@ class TransactionServiceTest {
         transactionDto = new TransactionDto();
         transactionDto.setIdTarjeta(1);
         transactionDto.setFechaMovimiento(now);
-        transactionDto.setMontoDinero(15);
+        transactionDto.setMontoDinero(new BigDecimal("15"));
         transactionDto.setTipoOperacion(1);
         transactionDto.setEstadoMovimiento(1);
 
@@ -85,7 +84,7 @@ class TransactionServiceTest {
         purchaseRequest.setPrice(4);
 
         cardDto = new CardDto();
-        cardDto.setSaldo(40.0);
+        cardDto.setSaldo(new BigDecimal("40.0"));
         cardDto.setFechaVencimiento(now.plusYears(3));
         cardDto.setEstadoTarjeta(1);
 
@@ -93,6 +92,7 @@ class TransactionServiceTest {
         when(iCardRepository.getBalanceInquiry(purchaseRequest.getCardId())).thenReturn(cardDto);
         when(iTransactionRepository.postPurchase(any(TransactionDto.class))).thenReturn(transactionDto);
         when(iCardRepository.putRechargeBalance(eq(purchaseRequest.getCardId()), anyString())).thenReturn(cardDto);
+        when(timeProvider.now()).thenReturn(now);
         String result = null;
         try {
             result = transactionService.postPurchase(purchaseRequest);
@@ -144,21 +144,23 @@ class TransactionServiceTest {
 
     @Test
     void putAnulation() {
+        LocalDateTime now = LocalDateTime.now();
         transactionDto = new TransactionDto();
         transactionDto.setId(1);
-        transactionDto.setFechaMovimiento(LocalDateTime.now());
-        transactionDto.setMontoDinero(50);
+        transactionDto.setFechaMovimiento(now);
+        transactionDto.setMontoDinero(new BigDecimal("50"));
 
         AnulationRequest anulationRequest = new AnulationRequest();
         anulationRequest.setTransactionId(1);
-        anulationRequest.setCardId("123456789");
+        anulationRequest.setCardId("1234560123456789");
 
         cardDto = new CardDto();
-        cardDto.setSaldo(100.0);
+        cardDto.setSaldo(new BigDecimal("100.0"));
 
         when(iTransactionRepository.existsByTransaction(anulationRequest.getTransactionId())).thenReturn(true);
         when(iTransactionRepository.getTransaction(anulationRequest.getTransactionId())).thenReturn(Optional.of(transactionDto));
         when(iCardRepository.getBalanceInquiry(anulationRequest.getCardId())).thenReturn(cardDto);
+        when(timeProvider.now()).thenReturn(now.plusHours(1));
 
         TransactionResponse result = transactionService.putAnulation(anulationRequest);
 
@@ -169,7 +171,7 @@ class TransactionServiceTest {
         verify(iTransactionRepository, times(1)).existsByTransaction(anulationRequest.getTransactionId());
         verify(iTransactionRepository, times(1)).getTransaction(anulationRequest.getTransactionId());
         verify(iCardRepository, times(1)).getBalanceInquiry(anulationRequest.getCardId());
-        verify(iCardRepository, times(1)).putRechargeBalance(anulationRequest.getCardId(), "150.0");
+        verify(iCardRepository, times(1)).putRechargeBalance(anulationRequest.getCardId(), "150" );
         verify(iTransactionRepository, times(1)).putAnulation(anulationRequest.getTransactionId(), 2);
 
     }

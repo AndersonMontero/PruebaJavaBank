@@ -31,8 +31,8 @@ CREATE TABLE `administrador` (
   `id_admin` int(11) NOT NULL,
   `nombre` varchar(40) NOT NULL,
   `apellido` varchar(40) NOT NULL,
-  `id_tarjeta` int(16) NOT NULL,
-  `fecha_bloqueo` date NOT NULL DEFAULT current_timestamp()
+  `id_tarjeta` int(11) NOT NULL,
+  `fecha_bloqueo` DATETIME NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -48,8 +48,8 @@ CREATE TABLE `cliente` (
   `nombre` varchar(50) NOT NULL,
   `apellido` varchar(50) NOT NULL,
   `tipo_tarjeta` varchar(10) NOT NULL,
-  `id_tarjeta` int(16) NOT NULL,
-  `fecha_creacion` date NOT NULL DEFAULT current_timestamp()
+  `id_tarjeta` int(11) NOT NULL,
+  `fecha_creacion` DATETIME NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -60,9 +60,9 @@ CREATE TABLE `cliente` (
 
 CREATE TABLE `movimiento` (
   `id` int(11) NOT NULL,
-  `id_tarjeta` int(16) NOT NULL,
-  `fecha_movimiento` date NOT NULL,
-  `monto_dinero` int(11) NOT NULL,
+  `id_tarjeta` int(11) NOT NULL,
+  `fecha_movimiento` DATETIME NOT NULL,
+  `monto_dinero` DECIMAL(10,2) NOT NULL,
   `tipo_operacion` bigint(3) NOT NULL DEFAULT 1 COMMENT '1: Compra\r\n2: avance\r\n3: retiro',
   `estado_movimiento` bigint(2) NOT NULL DEFAULT 1 COMMENT '1: compra/avance\r\n2: anulada'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -72,8 +72,8 @@ CREATE TABLE `movimiento` (
 --
 
 INSERT INTO `movimiento` (`id`, `id_tarjeta`, `fecha_movimiento`, `monto_dinero`, `tipo_operacion`, `estado_movimiento`) VALUES
-(1, 1, '2024-02-12', 10, 1, 2),
-(2, 1, '2024-02-14', 20, 1, 1);
+(1, 1, '2024-02-12 00:00:00', 10.00, 1, 2),
+(2, 1, '2024-02-14 00:00:00', 20.00, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -86,12 +86,12 @@ CREATE TABLE `tarjeta` (
   `id_producto` varchar(6) NOT NULL,
   `numero_tarjeta` varchar(16) NOT NULL,
   `nombre_titular` varchar(100) DEFAULT NULL,
-  `fecha_vencimiento` date NOT NULL,
+  `fecha_vencimiento` DATETIME NOT NULL,
   `id_tipo_tarjeta` bigint(2) DEFAULT NULL COMMENT '1: Credito\r\n2: Debito',
   `tipo_tarjeta` varchar(10) DEFAULT NULL,
   `estado_tarjeta` bigint(20) NOT NULL DEFAULT 2 COMMENT '1: Activa\r\n2: Inactiva\r\n3: Bloqueada',
   `saldo` decimal(10,2) NOT NULL,
-  `fecha_creacion` date NOT NULL DEFAULT current_timestamp()
+  `fecha_creacion` DATETIME NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -99,10 +99,10 @@ CREATE TABLE `tarjeta` (
 --
 
 INSERT INTO `tarjeta` (`id`, `id_producto`, `numero_tarjeta`, `nombre_titular`, `fecha_vencimiento`, `id_tipo_tarjeta`, `tipo_tarjeta`, `estado_tarjeta`, `saldo`, `fecha_creacion`) VALUES
-(1, '123456', '1234560123456789', 'Anderson', '2024-02-17', 1, 'Credito', 1, 30.00, '2024-02-07'),
-(2, '987654', '9876541076774658', NULL, '2024-02-01', NULL, NULL, 3, 70.00, '2024-02-15'),
-(987659, '369852', '3698521059296387', NULL, '2027-02-11', NULL, NULL, 1, 0.00, '2024-02-11'),
-(987661, '012345', '0123451065975768', NULL, '2027-02-12', NULL, NULL, 1, 0.00, '2024-02-12');
+(1, '123456', '1234560123456789', 'Anderson', '2024-02-17 00:00:00', 1, 'Credito', 1, 30.00, '2024-02-07 00:00:00'),
+(2, '987654', '9876541076774658', NULL, '2024-02-01 00:00:00', NULL, NULL, 3, 70.00, '2024-02-15 00:00:00'),
+(987659, '369852', '3698521059296387', NULL, '2027-02-11 00:00:00', NULL, NULL, 1, 0.00, '2024-02-11 00:00:00'),
+(987661, '012345', '0123451065975768', NULL, '2027-02-12 00:00:00', NULL, NULL, 1, 0.00, '2024-02-12 00:00:00');
 
 --
 -- Índices para tablas volcadas

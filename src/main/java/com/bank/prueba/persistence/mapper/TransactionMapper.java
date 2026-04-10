@@ -3,8 +3,7 @@ package com.bank.prueba.persistence.mapper;
 import com.bank.prueba.domain.dto.TransactionDto;
 import com.bank.prueba.persistence.entity.TransactionEntity;
 import org.mapstruct.Mapper;
-
-import java.util.Optional;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface TransactionMapper {
@@ -13,6 +12,7 @@ public interface TransactionMapper {
 
     TransactionDto toTransactionDto(TransactionEntity save);
 
+    @Mapping(target = "id", source = "transactionId")
     TransactionEntity toTransactionEntity(Integer transactionId);
 
 }

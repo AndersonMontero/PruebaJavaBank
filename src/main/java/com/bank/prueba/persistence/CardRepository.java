@@ -9,6 +9,8 @@ import com.bank.prueba.persistence.mapper.CardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
+
 @Repository
 public class CardRepository implements ICardRepository {
 
@@ -26,7 +28,7 @@ public class CardRepository implements ICardRepository {
     @Override
     public CardResponse postNumberCard(CardDto addData) {
         CardEntity cardEntity = cardMapper.toCardEntity(addData);
-        return cardMapper.toCarResponse(cardCrudRepository.save(cardEntity));
+        return cardMapper.toCardResponse(cardCrudRepository.save(cardEntity));
     }
 
     @Override
@@ -41,7 +43,15 @@ public class CardRepository implements ICardRepository {
 
     @Override
     public CardDto putRechargeBalance(String cardId, String balance) {
-        cardCrudRepository.putRechargeBalance(cardId,balance);
+        // convertir a BigDecimal para trabajar con el tipo monetario en la entidad
+        BigDecimal value;
+        try {
+            value = new BigDecimal(balance);
+        } catch (NumberFormatException e) {
+            // si el formato no es válido, delegar al repositorio con cero para no romper la llamada (se recomienda validar antes)
+            value = BigDecimal.ZERO;
+        }
+        cardCrudRepository.putRechargeBalance(cardId,value);
         return cardMapper.toCardDto(cardCrudRepository.findByNumeroTarjeta(cardId));
     }
 
